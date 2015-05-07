@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="modao的博客">
+    <title>modao的博客 - 重新学习js模块规范</title>
+    <meta name="author" content="莫导">
+    <meta name="description" content="modao的博客">
+    <link rel="icon" href="/assets/images/null">
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css" type="text/css">
+    <!--STYLES END-->
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars "></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="http://modao.github.io">modao的博客</a>
+    </h1>
+    
+</header>
+            <nav id="sidebar">
+    
+    
+        <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link" href="http://modao.github.io/">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc hide-md">Home</span>
+                    </a>
+                </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link" href="http://modao.github.io/all-categories">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc hide-md">Categories</span>
+                    </a>
+                </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link" href="http://modao.github.io/all-tags">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc hide-md">Tags</span>
+                    </a>
+                </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link" href="http://modao.github.io/all-archives">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc hide-md">Archives</span>
+                    </a>
+                </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link" href="http://modao.github.io/#about">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc hide-md">About me</span>
+                    </a>
+                </li>
+            
+        </ul>
+    
+        <ul class="sidebar-buttons">
+            
+        </ul>
+    
+        <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link" href="http://modao.github.io/atom.xml">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                        <span class="sidebar-button-desc hide-md">RSS</span>
+                    </a>
+                </li>
+            
+        </ul>
+    
+</nav>
+            <div id="main">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+        <div class="post-header main-content-wrap">
+    
+        <h1 class="post-title" itemprop="headline">重新学习js模块规范</h1>
+    
+    <div class="post-meta">
+    <time  itemprop="datePublished" content="Sun Mar 29 2015 10:16:03 GMT+0800">
+        Mar 29, 2015
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown main-content-wrap" itemprop="articleBody">
+        <h2 id="背景">背景</h2><ul>
+<li>团队前端技术选型定的是使用KISSY5 modulex作为基础框架，该框架使用define语法来定义模块，故研究下define的各种模块规范写法</li>
+</ul>
+<h2 id="KISSY5支持的模块写法">KISSY5支持的模块写法</h2><ul>
+<li>commonjs写法(define(modName, modDeps, factory))，示例如下<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">'name'</span>, [<span class="string">'node'</span>], <span class="function"><span class="keyword">function</span><span class="params">(require, exports, module)</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> Node = <span class="built_in">require</span>(<span class="string">'node'</span>);</span><br><span class="line">    <span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//do sth</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>推荐使用书写时隐去模块名+依赖，使用gulp-kmc打包<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span><span class="params">(require, exports, module)</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> Node=<span class="built_in">require</span>(<span class="string">'node'</span>);</span><br><span class="line">    <span class="built_in">module</span>.exports=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//do sth</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>kmd写法（define(modName, factory, modDeps)），示例如下<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">'name'</span>, <span class="function"><span class="keyword">function</span><span class="params">(Node, IO)</span></span>&#123;</span><br><span class="line"><span class="comment">//do sth</span></span><br><span class="line">&#125;, &#123;<span class="string">'requires'</span>: [</span><br><span class="line">    <span class="string">'node'</span>,</span><br><span class="line">    <span class="string">'io'</span></span><br><span class="line">]&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>不推荐使用这种书写方法，这是kissy独有的模块规范，不成社区标准</p>
+<h2 id="模块规范">模块规范</h2><h3 id="AMD规范">AMD规范</h3><ul>
+<li>AMD是Asynchronous Module Definition的简写，中文名异步模块定义。主要是为了解决js模块同步载入阻塞浏览器渲染以及模块间依赖不好处理的问题。</li>
+<li><p>AMD规范模块写法（define(modName, modDeps, factory)），示例如下</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">'name'</span>, [<span class="string">'node'</span>, <span class="string">'io'</span>], <span class="function"><span class="keyword">function</span><span class="params">(Node, IO)</span></span>&#123;</span><br><span class="line">    <span class="comment">//do sth</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>AMD规范实现典型例子requireJs，其要求所有模块为一个独立的文件，主要有两个全局变量define和require。模块定义使用define方法，示例如下：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">define([<span class="string">'node'</span>, <span class="string">'io'</span>], <span class="function"><span class="keyword">function</span><span class="params">(Node, IO)</span></span>&#123;</span><br><span class="line">    <span class="comment">//do sth</span></span><br><span class="line">    <span class="keyword">return</span> sth;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>调用模块使用require语法，示例如下：<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>([<span class="string">'modA, modB'</span>], <span class="reserved">function</span>(ModA, ModB)&#123;</span><br><span class="line">    <span class="regexp">//</span><span class="keyword">do</span> sth <span class="reserved">with</span> ModA&amp;ModB，<span class="literal">no</span> <span class="keyword">return</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>其中modA，modB这些require载入的模块名称对应的路径是通过require.config来指定路径的，这样才能够在define定义的模块中省去模块名，示例如下：<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span><span class="built_in">.</span>config(&#123;</span><br><span class="line">    <span class="string">'baseUrl'</span>: <span class="string">'http://g.tbcdn.cn/crm/'</span>,    <span class="comment">//baseUrl也可以为相对路径，为相对当前文件的路径</span></span><br><span class="line">    <span class="string">'paths'</span>: &#123;</span><br><span class="line">        <span class="string">'modA'</span>: <span class="string">'modA'</span>,</span><br><span class="line">        <span class="string">'modB'</span>: <span class="string">'modB'</span>,</span><br><span class="line">        <span class="attribute">...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>require.config一般配置在入口js文件的开始部分，入口js文件是通过静态载入require.js中通过data-main属性指定的，示例如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"js/require.js"</span> <span class="attribute">defer</span> <span class="attribute">async</span>=<span class="value">"true"</span> <span class="attribute">data-main</span>=<span class="value">"js/main.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>AMD规范中也提供了兼容CommonJs的写法</p>
+<ul>
+<li>参考文章：<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2012/11/require_js.html" target="_blank" rel="external">requireJs的用法</a></li>
+<li><a href="http://requirejs.org/" target="_blank" rel="external">requireJs官网</a></li>
+<li><a href="https://github.com/amdjs/amdjs-api/wiki" target="_blank" rel="external">amdjs规范</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="CMD规范">CMD规范</h3><ul>
+<li>CMD是Common Module Definition的缩写</li>
+<li><p>CMD模块的书写规范：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">define( <span class="string">'module'</span>, [<span class="string">'module1'</span>, <span class="string">'module2'</span>], <span class="function"><span class="keyword">function</span><span class="params">( <span class="keyword">require</span>, exports, <span class="keyword">module</span> )</span><span class="comment">&#123;</span><br><span class="line">    // 模块代码</span><br><span class="line">&#125;</span> );</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对其中的参数说明：</p>
+<ul>
+<li><p>require用来进行依赖模块加载，可以实现同步加载与异步加载</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Node=<span class="built_in">require</span>(<span class="string">'node'</span>);   <span class="comment">//同步加载</span></span><br><span class="line"><span class="built_in">require</span>.async(<span class="string">'./a'</span>, <span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>&#123;       <span class="comment">//异步加载</span></span><br><span class="line">    <span class="comment">//do sth with a</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>exports用来定义模块对外提供的接口</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span><span class="params">(require, exports, module)</span></span>&#123;</span><br><span class="line">    exports.param=param;</span><br><span class="line">    exports.init=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//do sth</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>或使用return来提供对外接口<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span><span class="params">(require, exports, module)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">'param'</span>: param,</span><br><span class="line">        <span class="string">'init'</span>: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="comment">//do sth</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>或使用module.exports来提供对外接口<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span><span class="params">(require, exports, module)</span></span>&#123;</span><br><span class="line">    <span class="built_in">module</span>.exports = &#123;</span><br><span class="line">        <span class="string">'param'</span>: param,</span><br><span class="line">        <span class="string">'init'</span>: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="comment">//do sth</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<pre><code>* <span class="class"><span class="keyword">module</span>为一个存储模块相关一些信息的对象，例如：</span>
+    * <span class="class"><span class="keyword">module</span>.<span class="title">id</span> 为模块的唯一标识。</span>
+    * <span class="class"><span class="keyword">module</span>.<span class="title">uri</span> 根据模块系统的路径解析规则得到模块的绝对路径。</span>
+    * <span class="class"><span class="keyword">module</span>.<span class="title">dependencies</span> 表示模块的依赖。</span>
+    * <span class="class"><span class="keyword">module</span>.<span class="title">exports</span> 当前模块对外提供的接口。</span>
+</code></pre><h3 id="CommonJs规范">CommonJs规范</h3><ul>
+<li>CommonJs规范实质上也是一整套规范(包括模块化、文件处理、IO stream、socket等一系列规范)，它不只是限于模块规范的定义，有点类似与ECMAScript规范分庭抗礼的感觉（ECMAScript定义浏览器端js应该有的语言特性与API，CommonJs定义服务端js应该有的语言特性和API）。nodejs为部分实现CommonJs规范的典范</li>
+<li>CommonJs模块规范中的一个文件就是一个模块，模块里面有require和exports两个可以直接使用的方法。其中require用来载入另外一个CommonJs模块，<br>exports用来定义模块输出。示例代码<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//addition.js</span></span><br><span class="line"><span class="keyword">exports</span>.<span class="keyword">message</span>=<span class="string">'add'</span>;</span><br><span class="line"><span class="keyword">exports</span>.add=<span class="function"><span class="keyword">function</span><span class="params">(a, b)</span><span class="comment">&#123;</span><br><span class="line">    return a+b;</span><br><span class="line">&#125;</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>载入模块：<br><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="keyword">add</span>=<span class="keyword">require</span>(<span class="string">'./addition'</span>);</span><br><span class="line">console.log(<span class="keyword">add</span>.message);</span><br><span class="line"><span class="keyword">add</span>.<span class="keyword">add</span>(<span class="number">1</span>, <span class="number">2</span>);  <span class="comment">//3</span></span><br></pre></td></tr></table></figure></p>
+<p>如果模块返回仅为一个函数，可以使用module.exports。（注意这里与CMD规范不同）<br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//addition.js</span></span><br><span class="line">module.<span class="keyword">exports</span> = <span class="function"><span class="keyword">function</span><span class="params">(a, b)</span><span class="comment">&#123;</span><br><span class="line">    return a+b;</span><br><span class="line">&#125;</span>;</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>参考资料：<ul>
+<li><a href="http://www.commonjs.org/" target="_blank" rel="external">commonJs官网</a></li>
+<li><a href="http://arstechnica.com/business/2009/12/commonjs-effort-sets-javascript-on-path-for-world-domination/" target="_blank" rel="external">http://arstechnica.com/business/2009/12/commonjs-effort-sets-javascript-on-path-for-world-domination/</a></li>
+</ul>
+</li>
+</ul>
+
+        
+            
+        
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/blog/">blog</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/something-about-modulex/"  data-tooltip="modulex相关学习">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://modao.github.io/relearn-module-rule/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://modao.github.io/relearn-module-rule/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://modao.github.io/relearn-module-rule/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+    </div>
+    <div class="post-bottom-bar">
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/something-about-modulex/"  data-tooltip="modulex相关学习">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://modao.github.io/relearn-module-rule/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://modao.github.io/relearn-module-rule/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://modao.github.io/relearn-module-rule/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2015 莫导. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">莫导</h4>
+        
+        
+        
+    </div>
+</div>
+        <div id="cover" style="background-image:url('/assets/images/cover.png');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+
+</html>
